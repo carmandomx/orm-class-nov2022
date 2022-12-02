@@ -10,7 +10,7 @@ $ CREATE DATABASE #DBname WITH OWNER "#Username"
 $ \c #DBname "#Username"
 $ >Contraseña para usuario #Username: ******
 ```
-Save your credentials to add and .env in your project
+Save your credentials to later add them to an .env in your project.
 
 ```
 PORT=3000
