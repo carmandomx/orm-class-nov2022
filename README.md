@@ -7,6 +7,8 @@ Open SQL Shell
 $ CREATE USER #Username WITH PASSWORD '#password'
 $ \du
 $ CREATE DATABASE #DBname WITH OWNER "#Username"
+$ \c #DBname "#Username"
+$ >Contraseña para usuario #Username: ******
 ```
 Save your credentials to add and .env in your project
 
