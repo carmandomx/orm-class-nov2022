@@ -4,13 +4,28 @@ import { UURL } from "../models/URL.models";
 
 export const createURL =async (id:string, origUrl:string) => {
     try {
-        const newTodo = await UURL.create({
+        const newModel = await UURL.create({
             id,
             origUrl
         })
 
-        return newTodo.id;
+        return newModel.id;
     } catch (error) {
         console.error(error);
     }
 }
+
+export const fetchUrlById  = async (id:string) => {
+    try{
+        const urlFetched = await UURL.findByPk(id);
+        if(!urlFetched){
+            return 'Record not found';
+        }
+
+        return urlFetched.origUrl;
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+    
