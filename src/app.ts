@@ -16,3 +16,16 @@ app.use('/url', URLRouter);
 
 
 export default app;
+
+/**
+ Tarea:
+ For the Todo:
+
+ -READ
+ -UPDATE
+ -DELETE
+
+ Repositorio/Modelo/Rutas
+
+ 
+ */
