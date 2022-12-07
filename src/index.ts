@@ -1,19 +1,19 @@
 import dotenv from 'dotenv';
+dotenv.config();
 import { startSequelize  } from './models';
 import app from './app';
-
-dotenv.config();
+import envs from './models/configDBs'
 const PORT = process.env.PORT;
-const DB_PASS = <string>process.env.DB_PASS;
-const DB_USER = <string>process.env.DB_USER;
-const DB_NAME = <string>process.env.DB_NAME;
-const DB_HOSTNAME = <string>process.env.DB_HOSTNAME;
+
+
+const envRunning = process.env.ENVIRONMENT === 'testing' ? envs.test  : envs.dev  
 
 app.listen(PORT, async () => {
     try {
-        const sequelize = startSequelize(DB_NAME, DB_PASS, DB_HOSTNAME, DB_USER);
-        await sequelize.sync();
+        const sequelize = startSequelize(envRunning.database, envRunning.passwd, envRunning.host, envRunning.username);
+        await sequelize.sync({ force: process.env.ENVIRONMENT === 'testing' });
         console.info('DB and Express server is up and running!!!!')
+        console.info(process.env.ENVIRONMENT)
     } catch (error) {
         console.error(error);
         process.abort();

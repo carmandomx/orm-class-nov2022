@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import {  initTodoModel } from './Todo.model' // Modelos
+import { initTodoModel } from './Todo.model' // Modelos
 import { initURLModel } from './URL.model'
 export let sequelize: Sequelize;
 

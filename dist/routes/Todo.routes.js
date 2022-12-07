@@ -29,3 +29,63 @@ exports.TodoRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         id: newTodoId
     });
 }));
+exports.TodoRouter.get('/:todoId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todoId = Number(req.params['todoId']);
+    if (todoId <= 0) {
+        res.status(400);
+        return res.send({
+            error: 'Invalid id'
+        });
+    }
+    const foundTodo = yield (0, Todo_repo_1.fetchTodoById)(todoId);
+    if (!foundTodo) {
+        res.status(400);
+        return res.send({
+            error: 'Todo not found.'
+        });
+    }
+    // TodoId es mayor a 0 y Todo con el TodoId existe en la DB
+    res.send(foundTodo);
+}));
+exports.TodoRouter.put('/:todoId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todoId = Number(req.params['todoId']);
+    const body = req.body;
+    if (todoId <= 0) {
+        res.status(400);
+        return res.send({
+            error: 'Invalid id'
+        });
+    }
+    const affectedRows = yield (0, Todo_repo_1.updateTodoById)(todoId, body);
+    if (!affectedRows) {
+        res.status(400);
+        return res.send({
+            error: 'Something went wrong! :)'
+        });
+    }
+    if (affectedRows[0] === 0) {
+        res.status(400);
+        return res.send({
+            error: 'Update failed'
+        });
+    }
+    const foundTodo = yield (0, Todo_repo_1.fetchTodoById)(todoId);
+    res.status(200);
+    return res.send(foundTodo);
+}));
+exports.TodoRouter.delete('/:todoId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todoId = Number(req.params['todoId']);
+    if (todoId <= 0) {
+        res.status(400);
+        return res.send({
+            error: 'Invalid id'
+        });
+    }
+    const ar = yield (0, Todo_repo_1.deleteTodoById)(todoId);
+    if (!ar) {
+        return res.status(400).send({
+            error: 'Cannot delete'
+        });
+    }
+    return res.sendStatus(200);
+}));
