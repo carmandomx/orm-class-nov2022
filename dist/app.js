@@ -14,3 +14,15 @@ app.get('/', (req, res) => {
 });
 app.use('/url', URL_routes_1.URLRouter);
 exports.default = app;
+/**
+ Tarea:
+ For the Todo:
+
+ -READ
+ -UPDATE
+ -DELETE
+
+ Repositorio/Modelo/Rutas
+
+ 
+ */ 

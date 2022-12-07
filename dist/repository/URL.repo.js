@@ -9,19 +9,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createURL = void 0;
+exports.fetchUrlById = exports.createURL = void 0;
 const URL_models_1 = require("../models/URL.models");
 // Create operation
 const createURL = (id, origUrl) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newTodo = yield URL_models_1.UURL.create({
+        const newModel = yield URL_models_1.UURL.create({
             id,
             origUrl
         });
-        return newTodo.id;
+        return newModel.id;
     }
     catch (error) {
         console.error(error);
     }
 });
 exports.createURL = createURL;
+const fetchUrlById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const urlFetched = yield URL_models_1.UURL.findByPk(id);
+        if (!urlFetched) {
+            return 'Record not found';
+        }
+        return urlFetched.origUrl;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.fetchUrlById = fetchUrlById;

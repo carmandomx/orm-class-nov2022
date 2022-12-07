@@ -29,3 +29,67 @@ exports.TodoRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         id: newTodoId
     });
 }));
+// Read
+exports.TodoRouter.get('/:todoId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todoId = Number(req.params['todoId']);
+    if (todoId <= 0) {
+        res.status(404);
+        return res.send({
+            error: 'Invalid Id'
+        });
+    }
+    const foundTodo = yield (0, Todo_repo_1.fetchTodoById)(todoId);
+    if (!foundTodo) {
+        res.status(400);
+        return res.send({
+            error: 'Todo not found.'
+        });
+    }
+    res.status(200);
+    return res.send(foundTodo.dataValues);
+}));
+//Update
+exports.TodoRouter.post('/:todoId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todoId = Number(req.params['todoId']);
+    const body = req.body;
+    if (todoId <= 0) {
+        res.status(404);
+        return res.send({
+            error: 'Invalid Id'
+        });
+    }
+    const affectedrows = yield (0, Todo_repo_1.updateTodoById)(todoId, body);
+    if (!affectedrows) {
+        res.status(400);
+        return res.send({
+            error: 'Something went wrong.'
+        });
+    }
+    if (affectedrows[0] === 0) {
+        res.status(400);
+        return res.send({
+            error: 'Update failed.'
+        });
+    }
+    const foundTodo = yield (0, Todo_repo_1.fetchTodoById)(todoId);
+    res.status(200);
+    return res.send(foundTodo);
+}));
+// Delete
+exports.TodoRouter.delete('/:deleteId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todoId = Number(req.params['deleteId']);
+    if (todoId <= 0) {
+        res.status(404);
+        return res.send({
+            error: 'Invalid Id'
+        });
+    }
+    const deleteTodo = yield (0, Todo_repo_1.deleteTodobyId)(todoId);
+    if (!deleteTodo) {
+        res.status(400);
+        return res.send({
+            error: 'Cannot failed.'
+        });
+    }
+    return res.sendStatus(200);
+}));

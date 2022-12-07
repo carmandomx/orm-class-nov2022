@@ -31,20 +31,21 @@ URLRouter.get('/:uuid', async (req, res:Response) => {
 
     const uuid = req.params['uuid'] as string;
     if (!uuid) {
-        res.status(400).send({
+        return res.status(400).send({
             error: 'No ID provided'
         })
     }
 
 
-    const url_ = await fetchUrlById(uuid);
+    const Url = await fetchUrlById(uuid);
 
-    if (!url_) {
-        res.status(400).send({
+    if (!Url) {
+        res.status(400);
+        return res.send({
             error: 'No URL with this ID was found'
         })
     }
-
-     res.redirect(url_);
+    
+    return res.redirect(Url);
 
 });

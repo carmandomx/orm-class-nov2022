@@ -25,10 +25,26 @@ exports.URLRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, func
     // Si tengo mi url
     // Debo crear un nuevo URL y guardarlo a la DB
     // pero primero creo el id unico
-    const newId = (0, uuid_1.v4)();
+    const newId = (0, uuid_1.v4)().split('-')[0];
     const newURLId = yield (0, URL_repo_1.createURL)(newId, uurl);
     res.status(201);
     res.send({
-        newURL: 'http://' + process.env.DB_HOSTNAME + '/' + newId,
+        newURL: 'http://' + process.env.DB_HOSTNAME + '/' + newURLId,
     });
+}));
+exports.URLRouter.get('/:uuid', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const uuid = req.params['uuid'];
+    if (!uuid) {
+        return res.status(400).send({
+            error: 'No ID provided'
+        });
+    }
+    const Url = yield (0, URL_repo_1.fetchUrlById)(uuid);
+    if (!Url) {
+        res.status(400);
+        return res.send({
+            error: 'No URL with this ID was found'
+        });
+    }
+    return res.redirect(Url);
 }));
