@@ -10,6 +10,12 @@ $ CREATE DATABASE #DBname WITH OWNER "#Username"
 $ \c #DBname "#Username"
 $ >Contraseña para usuario #Username: ******
 ```
+DB.
+
+```
+\c testdb test2
+```
+
 Save your credentials to later add them to an .env in your project.
 
 ```
