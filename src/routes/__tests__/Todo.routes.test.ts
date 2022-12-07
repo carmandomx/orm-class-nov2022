@@ -43,7 +43,42 @@ describe('Todo rutes', () => {
         expect(res.body).toEqual({
             message: 'No description'
         })
+    })
 
+    it('[GET] /todos - should return 400 after trying to get an invalid id', async () => {
+
+        const res = await request(app)
+            .get('/todos/0')
+
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toEqual({
+            error: 'Invalid id'
+        })
+
+    })
+
+    it('[GET] /todos - should return 400 after trying to get an inexistent id', async () => {
+
+        const res = await request(app)
+            .get('/todos/123')
+
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toEqual({
+            error: 'Todo not found.'
+        })
+
+    })
+
+    it('[GET] /todos - should return 200 after obtaining an existent path', async () => {
+
+        const res = await request(app)
+            .get('/todos/1')
+
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.id).toEqual(1)
+        expect(res.body.description).toEqual('Unit testing with Jest and Supertest ;)')
+        expect(res.body.is_completed).toEqual(false)
+        expect(res.body.createdAt && res.body.updatedAt).toBeTruthy()
 
     })
 
