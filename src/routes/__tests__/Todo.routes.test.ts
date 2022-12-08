@@ -76,10 +76,10 @@ describe('Todo rutes', () => {
     it('[GET] /todos - should return 200 after obtaining an existent path', async () => {
 
         const res = await request(app)
-            .get('/todos/1')
+            .get('/todos/4')
 
         expect(res.statusCode).toEqual(200);
-        expect(res.body.id).toEqual(1)
+        expect(res.body.id).toEqual(4)
         expect(res.body.description).toEqual('Unit testing with Jest and Supertest ;)')
         expect(res.body.is_completed).toEqual(false)
         expect(res.body.createdAt && res.body.updatedAt).toBeTruthy()
@@ -153,6 +153,21 @@ describe('Todo rutes', () => {
         })
     })
 
+    it('[PUT] /:todoId - should return 500 if body values are incorrect',async () => {
+        const res = await request(app)
+            .put('/todos/234')
+            .send({
+                id: 2,
+                description: 'Test for PUT - updated',
+                is_completed: 2
+            });
+
+        expect(res.statusCode).toBe(500);
+        expect(res.body).toEqual({
+            error: 'Something went wrong! :)'
+        })
+    })
+
     it('[PUT] /:todoId - should return 400 if todo is not found',async () => {
         const res = await request(app)
             .put('/todos/234')
@@ -168,7 +183,7 @@ describe('Todo rutes', () => {
         })
     })
 
-    it('[DELETE] /:todoId - should return status 200', async () => {
+    it('[DELETE] /:todoId - if deleiton is achieved, should return status 200', async () => {
         const res = await request(app)
             .delete('/todos/3')
             .send();
@@ -176,4 +191,27 @@ describe('Todo rutes', () => {
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual({})
     })
+
+    it('[DELETE] /:todoId - if id is <= 0 should return status 400', async () => {
+        const res = await request(app)
+            .delete('/todos/-1')
+            .send();
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body).toEqual({
+            error: 'Invalid id'
+        })
+    })
+
+    it('[DELETE] /:todoId - if id is incorrect, should return status 400', async () => {
+        const res = await request(app)
+            .delete('/todos/30')
+            .send();
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body).toEqual({
+            error: 'Cannot delete'
+        })
+    })
+
  })
