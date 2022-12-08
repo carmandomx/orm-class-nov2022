@@ -60,15 +60,13 @@ TodoRouter.put('/:todoId', async (req: Request, res: Response) => {
     }
 
     const affectedRows = await updateTodoById(todoId, body);
-    console.log(!affectedRows);
+
     if (!affectedRows) {
 
         res.status(500);
         return res.send({
             error: 'Something went wrong! :)'
         })
-
-
     }
 
     if (affectedRows[0] === 0) {
