@@ -51,13 +51,12 @@ export const updateTodoById = async (id: number, todoModel: InferAttributes<Todo
             is_completed: todoModel.is_completed
         }, {
             where: {
-                id: todoModel.id
+                id: id // WHERE ID = 234
             }
         })
-        
         return foo;
     } catch (error) {
-        console.error(error);
+        console.log(error);
         return null;
     }
 
