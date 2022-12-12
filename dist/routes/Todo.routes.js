@@ -57,8 +57,9 @@ exports.TodoRouter.put('/:todoId', (req, res) => __awaiter(void 0, void 0, void 
         });
     }
     const affectedRows = yield (0, Todo_repo_1.updateTodoById)(todoId, body);
+    console.log(!affectedRows);
     if (!affectedRows) {
-        res.status(400);
+        res.status(500);
         return res.send({
             error: 'Something went wrong! :)'
         });
