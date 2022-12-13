@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 
-type Role = 'patient' | 'doctor' | 'admin';
+export type Role = 'patient' | 'doctor' | 'admin';
 
 // Cuenta admin
 // admin@test.com / toor123
