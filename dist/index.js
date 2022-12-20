@@ -41,13 +41,19 @@ const models_1 = require("./models");
 const admin = __importStar(require("firebase-admin"));
 const app_1 = __importDefault(require("./app"));
 const configDBs_1 = __importDefault(require("./models/configDBs"));
+const B_model_1 = require("./models/B.model");
+const A_model_1 = require("./models/A.model");
 const PORT = process.env.PORT;
 admin.initializeApp();
 const envRunning = process.env.ENVIRONMENT === 'testing' ? configDBs_1.default.test : configDBs_1.default.dev;
 app_1.default.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sequelize = (0, models_1.startSequelize)(envRunning.database, envRunning.passwd, envRunning.host, envRunning.username);
-        yield sequelize.sync({ force: process.env.ENVIRONMENT === 'testing' });
+        yield sequelize.sync({ force: true });
+        const infoA = yield A_model_1.Info.create({ text: 'Hola' });
+        const barA = yield B_model_1.Bar.create({ desc: 'Hola' });
+        console.log(yield infoA.setBar(barA));
+        console.log(yield (yield infoA.getBar()).desc);
         console.info('DB and Express server is up and running!!!!');
         console.info(process.env.ENVIRONMENT);
     }
